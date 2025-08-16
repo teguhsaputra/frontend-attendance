@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 98%;
+    --foreground: 40 6% 25%;
+
+    --card: 30 33% 98%;
+    --card-foreground: 40 6% 25%;
+
+    --popover: 30 33% 98%;
+    --popover-foreground: 40 6% 25%;
+
+    --primary: 358 46% 51%;
+    --primary-foreground: 30 33% 98%;
+
+    --secondary: 48 47% 51%;
+    --secondary-foreground: 30 33% 98%;
+
+    --muted: 40 6% 90%;
+    --muted-foreground: 40 6% 45%;
+
+    --accent: 40 6% 90%;
+    --accent-foreground: 40 6% 25%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 30 33% 98%;
+
+    --border: 40 6% 90%;
+    --input: 40 6% 85%;
+    --ring: 48 47% 51%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 30 10% 10%;
+    --foreground: 40 6% 90%;
+
+    --card: 30 10% 10%;
+    --card-foreground: 40 6% 90%;
+
+    --popover: 30 10% 10%;
+    --popover-foreground: 40 6% 90%;
+
+    --primary: 358 46% 51%;
+    --primary-foreground: 30 33% 98%;
+
+    --secondary: 48 47% 51%;
+    --secondary-foreground: 30 33% 98%;
+
+    --muted: 40 6% 20%;
+    --muted-foreground: 40 6% 65%;
+
+    --accent: 40 6% 20%;
+    --accent-foreground: 40 6% 90%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 30 33% 98%;
+
+    --border: 40 6% 20%;
+    --input: 40 6% 25%;
+    --ring: 48 47% 51%;
+  }
+  .theme {
+    --animate-orbit: orbit calc(var(--duration)*1s) linear infinite;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium text-foreground;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .container-custom {
+    @apply container mx-auto px-4 md:px-6 max-w-7xl;
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+#butterfly-cursor {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+#butterfly-cursor .body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 30px;
+  background: #9b483c;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+#butterfly-cursor .wing {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #fbbf24, #f59e0b);
+  border-radius: 50% 50% 50% 50%;
+  opacity: 0.9;
+}
+
+#butterfly-cursor .wing.left {
+  left: 0;
+  top: 10%;
+  transform-origin: right center;
+  animation: flap-left 0.4s infinite ease-in-out;
+}
+
+#butterfly-cursor .wing.right {
+  right: 0;
+  top: 10%;
+  transform-origin: left center;
+  animation: flap-right 0.4s infinite ease-in-out;
+}
+
+@keyframes flap-left {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(25deg); }
+}
+
+@keyframes flap-right {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-25deg); }
+}
+
+@keyframes growShrink {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.animate-grow-shrink {
+  animation: growShrink 1.5s ease-in-out infinite;
+}
+
+/* Optional: if you want smooth hover */
+.nav-button-dot {
+  transition: background-color 0.3s ease;
+}
+
+/* Untuk menghaluskan transisi sticky */
+.scroll-stack-item {
+  transition: transform 0.5s ease-out;
+}
+
+/* Untuk background yang menempel */
+.sticky-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+@theme inline {
+  @keyframes orbit {
+  0% {
+    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+    }
+  100% {
+    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+}
