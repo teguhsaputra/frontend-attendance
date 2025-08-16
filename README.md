@@ -106,7 +106,11 @@ frontend-attendance/
    npm install
    ```
 
-3. Jalankan server development:
+3. ```bash
+   # copy .example-env rename ke .env arahkan ke backend-attandance atau localhost:8000
+   ```
+
+4. Jalankan server development:
 
    ```bash
    bun run dev
@@ -114,7 +118,7 @@ frontend-attendance/
    npm run dev
    ```
 
-4. Buka di browser:
+5. Buka di browser:
    ```
    http://localhost:3000
    ```
