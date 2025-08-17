@@ -7,6 +7,7 @@ import {
   deleteEmployee,
 } from "../utils/api";
 import { toast } from "sonner";
+import { normalizeResponse } from "@/lib/utils";
 
 interface EmployeeState {
   employees: Employee[];
@@ -28,10 +29,9 @@ export const useEmployeeStore = create<EmployeeState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await fetchEmployees();
-
-      const employeesData = response.data?.data || response.data || [];
+      // const employeesData = response.data?.data || response.data || [];
       set({
-        employees: Array.isArray(employeesData) ? employeesData : [],
+        employees: normalizeResponse(response),
         loading: false,
       });
     } catch (error) {
@@ -39,7 +39,6 @@ export const useEmployeeStore = create<EmployeeState>((set) => ({
       set((state) => ({
         error: "Gagal memuat data employee",
         loading: false,
-
         employees: state.employees,
       }));
       toast.error("Gagal memuat data employee");
@@ -50,14 +49,8 @@ export const useEmployeeStore = create<EmployeeState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await createEmployee(data);
-
-      const fetchResponse = await fetchEmployees();
-      const employeesData = Array.isArray(fetchResponse?.data)
-        ? fetchResponse.data
-        : [];
-
       set({
-        employees: employeesData,
+        employees: normalizeResponse(response),
         loading: false,
       });
 
@@ -79,12 +72,8 @@ export const useEmployeeStore = create<EmployeeState>((set) => ({
     try {
       await updateEmployee(id, data);
       const response = await fetchEmployees();
-
-      const updatedEmployees = Array.isArray(response?.data)
-        ? response.data
-        : [];
       set({
-        employees: updatedEmployees,
+        employees: normalizeResponse(response),
         loading: false,
       });
       toast.success("Employee berhasil diperbarui");
@@ -113,7 +102,7 @@ export const useEmployeeStore = create<EmployeeState>((set) => ({
 
       const employeesResponse = await fetchEmployees();
       set({
-        employees: employeesResponse.data,
+        employees: normalizeResponse(employeesResponse),
         loading: false,
       });
       toast.success("Employee berhasil dihapus");

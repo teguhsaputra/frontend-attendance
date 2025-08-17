@@ -7,6 +7,7 @@ import {
   deleteDepartment,
 } from "../utils/api";
 import { toast } from "sonner";
+import { normalizeResponse } from "@/lib/utils";
 
 interface DepartmentState {
   departments: Department[];
@@ -29,7 +30,7 @@ export const useDepartmentStore = create<DepartmentState>((set) => ({
     try {
       const response = await fetchDepartments();
       set({
-        departments: Array.isArray(response?.data) ? response.data : [],
+        departments: normalizeResponse(response),
         loading: false,
       });
     } catch (error) {
@@ -47,7 +48,7 @@ export const useDepartmentStore = create<DepartmentState>((set) => ({
     try {
       await createDepartment(data);
       const response = await fetchDepartments();
-      set({ departments: response.data, loading: false });
+      set({ departments: normalizeResponse(response), loading: false });
       toast.success("Departemen berhasil ditambahkan");
       return true;
     } catch (error) {
@@ -66,7 +67,7 @@ export const useDepartmentStore = create<DepartmentState>((set) => ({
     try {
       await updateDepartment(id, data);
       const response = await fetchDepartments();
-      set({ departments: response.data, loading: false });
+      set({ departments: normalizeResponse(response), loading: false });
       toast.success("Departemen berhasil diperbarui");
       return true;
     } catch (error) {
@@ -93,7 +94,7 @@ export const useDepartmentStore = create<DepartmentState>((set) => ({
 
       const departmentsResponse = await fetchDepartments();
       set({
-        departments: departmentsResponse.data,
+        departments: normalizeResponse(departmentsResponse),
         loading: false,
       });
       toast.success("Departemen berhasil dihapus");
